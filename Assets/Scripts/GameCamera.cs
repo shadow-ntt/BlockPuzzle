@@ -73,6 +73,7 @@ namespace Game
             backgroundTransform.localScale =
                 new Vector3(scaleFactor, scaleFactor, scaleFactor);
             //vị trí của điểm đạt được
+            //do canvas set position đặc biệt nên phải set theo kiểu lấy vị trí của nó trong màn hình sau đó set vị trí theo rectangle
             var screenPoint =
                 mainCamera.WorldToScreenPoint(
                     new Vector3(
