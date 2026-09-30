@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    [SerializeField] public Sprite normalSprite;
-    [SerializeField] public Sprite highlightSprite;
+    [SerializeField]
+    public Sprite normalSprite;
+
+    [SerializeField]
+    public Sprite highlightSprite;
     private SpriteRenderer spriteRenderer;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Khởi tạo SpriteRenderer và thiết lập trạng thái hiển thị ban đầu
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -15,29 +17,29 @@ public class Cell : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // Ẩn ô trên bàn cờ (tắt GameObject)
     public void Hide()
     {
         gameObject.SetActive(false);
     }
 
+    // Chuyển sprite ô sang dạng nổi bật (highlight) để hiển thị các dòng sắp hoàn thành
     public void Highlight()
     {
         spriteRenderer.sprite = highlightSprite;
         spriteRenderer.color = new Color(1, 1, 1, 1f);
         gameObject.SetActive(true);
     }
+
+    // Chuyển ô sang dạng bán trong suốt (hover) khi người chơi kéo khối gạch ướm thử vị trí
     public void Hover()
     {
         spriteRenderer.sprite = normalSprite;
         spriteRenderer.color = new Color(1, 1, 1, 0.15f);
         gameObject.SetActive(true);
     }
+
+    // Đặt ô về trạng thái bình thường (rõ nét) khi khối gạch đã được cố định trên bàn cờ
     public void Normal()
     {
         spriteRenderer.sprite = normalSprite;
@@ -45,3 +47,4 @@ public class Cell : MonoBehaviour
         gameObject.SetActive(true);
     }
 }
+

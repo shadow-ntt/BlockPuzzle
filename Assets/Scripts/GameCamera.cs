@@ -17,6 +17,7 @@ namespace Game
 
         private Vector2Int boardSize;
 
+        // Khởi tạo các tham chiếu camera, background và điểm số UI
         private void Awake()
         {
             Assert.IsNotNull(backgroundTransform);
@@ -25,40 +26,33 @@ namespace Game
             mainCamera = gameObject.GetComponent<Camera>();
         }
 
+        // Nhận thông tin khung nhìn UI từ GameViewFrame và cập nhật lại camera
         public void ViewFrame(Rect rect)
         {
             this.viewFrameRect = rect;
-
             Apply();
         }
 
+        // Thiết lập vùng giới hạn bàn cờ cùng kích thước bàn cờ, sau đó áp dụng cấu hình
         public void View(Rect rect, Vector2Int boardSize)
         {
             this.viewRect = rect;
             this.boardSize = boardSize;
-
             Apply();
         }
 
+        // Tính toán kích thước orthographicSize cho camera, co giãn background và căn vị trí bảng điểm
         public void Apply()
         {
             if (mainCamera == null)
                 return;
 
-            //var center = viewFrameRect.center;
             var size = viewRect.size / viewFrameRect.size;
             var height = Mathf.Max(size.x / mainCamera.aspect, size.y);
             var orthographicSize = height * 0.5f;
-            Debug.Log("size: " + size + "height: " + height + " viewFrameRect: " + viewFrameRect + " viewRect " + viewRect);
             mainCamera.orthographicSize = orthographicSize;
 
-            // transform.position = new Vector3(
-            //     viewRect.center.x,
-            //     viewRect.center.y - (center.y - 0.5f) * height,
-            //     transform.position.z
-            // );
-
-            //xử lý background theo camera
+            // Xử lý background theo camera
             backgroundTransform.position = new Vector3(
                 transform.position.x,
                 transform.position.y,
@@ -66,14 +60,14 @@ namespace Game
             );
             var scaleFactor =
                 Mathf.Max(
-                    height * mainCamera.aspect / 1080.0f,// chiều rộng camera, xử lý khi người dùng xoay ngang màn hình
+                    height * mainCamera.aspect / 1080.0f, // Chiều rộng camera, xử lý khi xoay ngang màn hình
                     height / 1920.0f
                 ) * 100.0f;
 
             backgroundTransform.localScale =
                 new Vector3(scaleFactor, scaleFactor, scaleFactor);
-            //vị trí của điểm đạt được
-            //do canvas set position đặc biệt nên phải set theo kiểu lấy vị trí của nó trong màn hình sau đó set vị trí theo rectangle
+
+            // Vị trí của điểm đạt được: chuyển đổi toạ độ đỉnh bàn cờ sang Screen Point rồi sang Local Point trong Canvas
             var screenPoint =
                 mainCamera.WorldToScreenPoint(
                     new Vector3(
@@ -108,4 +102,4 @@ namespace Game
             }
         }
     }
-}
+}
